@@ -1,0 +1,10 @@
+Recovering from git reset --hard
+
+Run git fsck --lost-found
+
+This creates a blobs of dangling files under <repository>/.git/lost-found/other
+
+Script
+create_file_types - function reads all the different file types in the dangling blobs and gets the unique file types for easier seggregation
+
+assign_folder_types - function reads different file formats and assigns them to respective folders, currently only a choosen few

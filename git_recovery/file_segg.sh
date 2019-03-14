@@ -1,7 +1,7 @@
 #!/usr/local/bin/bash
 
 # uses bash version 4.0 or higher
-recover_folder_path='/Users/nandy/repository/bit/phd/backup/recover'
+recover_folder_path='~/recover'
 
 # creates a result folder in current execution directory
 # all results will be stored here

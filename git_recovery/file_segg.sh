@@ -1,11 +1,21 @@
 #!/usr/local/bin/bash
 
 # uses bash version 4.0 or higher
+git_lost_found=''
 recover_folder_path='~/recover'
 
 # creates a result folder in current execution directory
 # all results will be stored here
 result_dir='result'
+
+# copy file from lost-found to recover
+copy_file(){
+    for fname in "$git_lost_found"/*;
+    do
+        name=$(basename $fname)
+        cp "$fname" "$recover_folder_path/${name%.*}.txt"
+    done
+}
 
 get_file_type(){
     f_type=$(file -I ${fname}  | grep -i ".*:" | awk '{
@@ -55,9 +65,9 @@ assign_folder_types(){
     file_associations["text"]="text/plain; charset=us-ascii text/plain;charset=unknown-8bit text/plain;charset=us-ascii text/plain;charset=utf-8"
     file_associations["pdf"]="application/pdf;charset=binary"
     file_associations["doc"]="application/msword;charset=binary"
-    file_associations["docx"]="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    file_associations["xls"]="application/vnd.ms-excel"
-    file_associations["xlsx"]="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    file_associations["docx"]="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=binary"
+    file_associations["xls"]="application/vnd.ms-excel;charset=binary"
+    file_associations["xlsx"]="application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=binary"
     file_associations["html"]="text/html;charset=us-ascii"
 
 
@@ -94,7 +104,6 @@ assign_folder_types(){
 
         elif [[ ${file_associations[text]} =~ "$f_type" ]]
         then
-            echo "Found"
             mv "$fname" "$result_dir/text/${name%.*}.txt"
         fi
     done
